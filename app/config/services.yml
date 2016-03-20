@@ -1,0 +1,59 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/book/service_container.html
+parameters:
+#    parameter_name: value
+
+services:
+    app.m3u8.parser.loader:
+        class: Chrisyue\PhpM3u8\Loader\Loader
+
+    app.m3u8.parser:
+        class: Chrisyue\PhpM3u8\Parser
+        calls:
+            -
+                - setLoader
+                - ['@app.m3u8.parser.loader']
+
+    app.m3u8.media_segment.uri_processor:
+        class: Chrisyue\PhpM3u8\M3u8\MediaSegment\UriProcessor\OriginUriProcessor
+
+    app.m3u8.dumper:
+        class: Chrisyue\PhpM3u8\Dumper
+        arguments:
+            - '@app.m3u8.media_segment.uri_processor'
+
+    app.epg_manager:
+        class: AppBundle\Manager\EpgManager
+        arguments:
+            - '@doctrine.orm.entity_manager'
+
+    app.video_manager:
+        class: Doctrine\ORM\EntityRepository
+        factory:
+            - '@doctrine'
+            - getRepository
+        arguments:
+            - AppBundle:Video
+
+    app.epg_scheduler:
+        class: Chrisyue\Mala\EpgScheduler
+        arguments:
+            - '@app.epg_manager'
+            - '@app.video_manager'
+
+    app.media_segment_manager:
+        class: AppBundle\Manager\MediaSegmentManager
+        arguments:
+            - '@doctrine.orm.entity_manager'
+
+    app.playlist_scheduler:
+        class: Chrisyue\Mala\PlaylistScheduler
+        arguments:
+            - '@app.m3u8.parser'
+            - '@app.epg_manager'
+            - '@app.media_segment_manager'
+
+    app.m3u8_generator:
+        class: Chrisyue\Mala\M3u8Generator
+        arguments:
+            - '@app.media_segment_manager'

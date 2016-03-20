@@ -38,3 +38,6 @@
 
 # Composer PHAR
 /composer.phar
+
+# ctags tags
+/tags
