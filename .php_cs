@@ -1,0 +1,13 @@
+<?php
+
+$finder = Symfony\CS\Finder\DefaultFinder::create()
+    ->in('src')
+    ->in('app/config')
+    ->in('app/Resources')
+;
+
+return Symfony\CS\Config\Config::create()
+    ->setUsingCache(true)
+    ->fixers(['-phpdoc_short_description', 'ordered_use'])
+    ->finder($finder)
+;
