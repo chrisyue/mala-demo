@@ -28,8 +28,9 @@ class Video implements VideoInterface
 
     /**
      * This property is for demostration purpose,
-     * in a real world case it's better too make a ChannelVideo
-     * to let Channel "many to many" Video
+     * in a real world case it's better to make an Entity like `ChannelVideo`
+     * to let Channel "many to many" Video, and also add an `sequence` property
+     * within it so you can tune the order of your videos
      *
      * @var Channel
      * 

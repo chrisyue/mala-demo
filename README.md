@@ -7,12 +7,12 @@ a PHP lib to transform your m3u8 files into a http live stream, with Symfony and
 Tutorial
 --------
 
-To make a http live stream, you should need some model:
+To make a HTTP live stream, you should need some model:
 
 - A `Channel`, which implements `Chrisyue\Mala\Model\ChannelInterface`
 - A `Video`, which implements `Chrisyue\Mala\Model\VideoInterface`
-- A `ProgramInterface`, which implements `Chrisyue\Mala\Model\ProgramInterface`
-- The last thing, a ScheduledMediaSegment, which is already a class, represent a m3u8 [media segment](https://tools.ietf.org/html/draft-pantos-http-live-streaming-18#page-5)
+- A `Program`, which implements `Chrisyue\Mala\Model\ProgramInterface`
+- The last thing, a `ScheduledMediaSegment`, which is already a class in Mala, represent a m3u8 [media segment](https://tools.ietf.org/html/draft-pantos-http-live-streaming-18#page-5)
 
 In a Symfony project, those model would like to be entities(in the `src/AppBundle/Entity`)
 
@@ -23,8 +23,8 @@ And also, we need some manager to manipulate those models:
 - `VideoManager`, which implements `Chrisyue\Mala\Manager\VideoManagerInterface`
 
 They are located in `src/AppBundle/Manager`, except `VideoManger`,
-because `VideoManager` is only used to fetch videos, which is much like a `EntityRepository` in
-a Symfony + Doctrine project.
+because `VideoManager` is only used to fetch videos, which is much like a `EntityRepository`
+in a typical Symfony + Doctrine project.
 
 So `VideoRepository` implements the `Chrisyue\Mala\Manager\VideoManagerInterface`
 instead of `VideoManager`. It's located in `src/AppBundle/Entity`
@@ -75,6 +75,6 @@ start the server by
 $ php app/console server:start
 ```
 
-finally you can browse the hls uri `http://localhost:8000/<channel-id>.m3u8` to check if there are errors.
+finally you can browse the HLS uri `http://localhost:8000/<channel-id>.m3u8` to check if there are errors.
 
-if no error raised you can use VLC or Quicktime or other players supporting hls to see the http live channel you've created!
+if no error raised you can use VLC or Quicktime or other players supporting HLS to see the HTTP live channel you've created!
